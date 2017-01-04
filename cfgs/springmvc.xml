@@ -53,9 +53,13 @@
 		<property name="suffix" value=".jsp"></property>-->
 	</bean>
 
-	<!-- （处理器映射器【注解】）处理器映射器 -->
+	<!-- （处理器映射器【注解】）处理器映射器 
+		3.1之后使用如下映射器（不配置将使用默认的，不正确）
+	-->
 	<bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping"></bean>
-	<!-- （处理器适配器【注解】）处理器适配器 -->
+	<!-- （处理器适配器【注解】）处理器适配器 
+		3.1之后使用如下适配器 （不配置将使用默认的，不正确）
+	-->
 	<bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter"></bean>
 
 	<!-- 可以使用mvc:annotation-driven代替上边的注解 处理器映射器和处理器适配器

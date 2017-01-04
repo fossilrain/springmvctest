@@ -19,6 +19,7 @@
   	<!-- 
   	第一种：*.action,访问以.actiong结尾由DispatcherServlet进行解析
   	第二种：/,所有访问的地址都有DispatcherServlet进行解析，对于静态文件的解析需要配置不让DispatcherServlet进行解析
+  		使用此种方式可已使用restfull风格的url
   	第三种：/*,此种配置不对，使用这种配置，最终要转发到一个jsp页面时，
   	仍然会由DispatcherServlet解析jsp地址，不能根据jsp页面找到handler，会报错。
   	 -->
