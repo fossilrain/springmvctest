@@ -11,7 +11,10 @@ public class LogbackTest {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		Logger logger = LoggerFactory.getLogger(LogbackTest.class);
-		logger.debug("Hello world.");
+		for(int i=0;i<10000;i++){
+			
+			logger.debug("Hello world.");
+		}
 		
 		// print internal state
 		/*LoggerContext lc = (LoggerContext)

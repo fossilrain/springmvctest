@@ -1,5 +1,81 @@
 <configuration debug="true">
   <contextName>springmvctest</contextName>
+  <!-- 声明变量 -->
+  <!-- <property name="LOG_HOME" value="D:/other/ide/ide1/ec_workspace/logs" /> -->
+  <!-- 引用配置文件 -->
+  <!-- <property file="src/main/java/chapters/configuration/variables1.properties" /> -->
+  <!-- 引用classpath上的资源 -->
+  <property resource="logbackvariable.properties" />
+  <!-- 时间戳 -->
+  <timestamp key="bySecond" datePattern="yyyyMMdd'T'HHmmss"/>
+  <!-- 
+      自动定义的属性
+  HOSTNAME 属性 -->
+  <appender name="FILE" class="ch.qos.logback.core.FileAppender">
+    <file>${LOG_HOME}/${HOSTNAME}/${bySecond}/springmvc.log</file>
+    <!-- <file>${log.file.wholepath}</file> --><!-- 嵌套变量替换 -->
+    <!-- <file>${default:-D:/other/ide/ide1/ec_workspace/logs/xxx.log}</file> --><!-- 变量的默认替换值(用于变量未被声明的情况) -->
+    <!-- 如果 true，事件被追加到现存文件尾部。
+		如果 false，清空现存文件。
+		默认为 true -->
+    <append>true</append>
+    <!-- 在 prudent 模式下， FileAppender 将安全地写入指定文
+		件，即使其他 FileAppender 实例运行在不同 JVM 上，
+		比如运行在不同主机上。
+		prudent 默认值为 false。
+		prudent 模式意味着 Append 属性自动设为 true。
+		prudent 模式写记录事件时，大约消耗非 prudent 模式的
+		三倍。 在一台“普通”的 PC 上，向本地硬盘写文件，
+		写一条记录事件， 非 prudent 模式需要 10 微妙， prudent
+		模式需要 30 微妙。 也就是非 prudent 模式每秒记录
+		100000 条事件， prudent 模式每秒 33000 条。
+		不同 JVM 写入同一个文件时， prudent 模式高效地排
+		列 I/O 操作。所以，由于访问文件的 JVM 的数量增加，
+		导致每次 I/O 操作都会有延迟。 只要 I/O 操作的总数大
+		约是 20 次记录请求/秒，就可以忽略对性能的影响。 每
+		秒 100 次或等多次 I/O 操作会影响性能， 此时应当避免
+		prudent 模式。
+		prudent 模式可以与 RollingFileAppender 联合使用，但
+		有些限制 -->
+    <prudent>true</prudent>
+    <encoder>
+      <pattern>%msg%n</pattern>
+    </encoder>
+  </appender>
+  <!-- <appender name="ROLLINGFILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <file>${log.dir}/rollingtest.log</file>
+    <rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
+      <fileNamePattern>tests.%i.log.zip</fileNamePattern>
+      <minIndex>1</minIndex>
+      <maxIndex>3</maxIndex>
+    </rollingPolicy>
+
+    <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+      <maxFileSize>5MB</maxFileSize>
+    </triggeringPolicy>
+    <encoder>
+      <pattern>%-4relative [%thread] %-5level %logger{35} - %msg%n</pattern>
+    </encoder>
+  </appender> -->
+  <appender name="TimeBasedRollingPolicy" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <file>${LOG_HOME}/tbrplogfile.log</file>
+    <!-- <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy"> -->
+    <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+      <!-- daily rollover -->
+      <fileNamePattern>${LOG_HOME}/tbrplogfile.%d{yyyy-MM-dd}.%i.log.zip</fileNamePattern>
+
+      <!-- keep 30 days' worth of history capped at 3GB total size -->
+      <!-- <maxHistory>30</maxHistory>
+      <totalSizeCap>3GB</totalSizeCap> -->
+      <!-- each file should be at most 100MB, keep 60 days worth of history, but at most 20GB -->
+      <maxFileSize>10KB</maxFileSize> <!-- 单位可以使bytes、 KB、 MB 或 GB -->  
+      <maxHistory>60</maxHistory>
+      <totalSizeCap>20GB</totalSizeCap>
+    </rollingPolicy>
+    <encoder>
+      <pattern>%-4relative [%thread] %-5level %logger{35} - %msg%n</pattern>
+    </encoder>
+  </appender> 
   <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
     <!-- encoders are assigned the type
          ch.qos.logback.classic.encoder.PatternLayoutEncoder by default -->
@@ -10,5 +86,7 @@
 
   <root level="debug">
     <appender-ref ref="STDOUT" />
+    <appender-ref ref="FILE" />
+    <appender-ref ref="TimeBasedRollingPolicy" />
   </root>
 </configuration>
