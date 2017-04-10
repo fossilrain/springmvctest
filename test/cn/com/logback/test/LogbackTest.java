@@ -15,7 +15,6 @@ public class LogbackTest {
 			
 			logger.debug("Hello world.");
 		}
-		
 		// print internal state
 		/*LoggerContext lc = (LoggerContext)
 		LoggerFactory.getILoggerFactory();
